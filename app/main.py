@@ -214,21 +214,21 @@ def det(v):
 
 def two_list_chuli(a):
 
-z_list = []
+    z_list = []
 
-for x in a:
-    a = str(x)
-    b = a.split("*")
-    wcl_list = []
+    for x in a:
+        a = str(x)
+        b = a.split("*")
+        wcl_list = []
 
-    for y in b :
-        c = y.strip('\'')
+        for y in b :
+            c = y.strip('\'')
 
-        wcl_list.append(c)
+            wcl_list.append(c)
 
-    z_list.append(wcl_list)
+        z_list.append(wcl_list)
 
-return z_list
+    return z_list
 
 
 
@@ -261,13 +261,14 @@ def apidk():
                 tjb = Det(name = zlist[2],describe = zlist[3],photo = zlist[4],body=zlist[5],role=a)
                 db.session.add(tjb)
                 db.session.commit()
-
+                '''
         if zlist[0] == "delete":
             if zlist[1] == "year":
 
             if zlist[1] == "activity":
 
             if zlist[1] == "det":
+                '''
 
         if zlist[0] == "search":
 
@@ -307,7 +308,7 @@ def upjpg():
         return '发送失败'
 
 '''
-
+'''
 
 
 @app.route('/api/',methods=['POST','GET'])
@@ -340,7 +341,7 @@ def apidk():
         
     return str(sss)
 
-'''
+
 @app.route('/api/del/',methods=['POST','GET'])
 def apidel():
     text=request.args.get('f')

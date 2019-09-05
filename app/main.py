@@ -207,7 +207,9 @@ def det(v):
 @app.route('/a/')
 def b():
 
-    return render_template('det.html')
+    lista = [["img","/static/img/det_min/a.jpg"]]
+
+    return render_template('det.html',lista=lista)
 
 
 

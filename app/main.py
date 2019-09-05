@@ -170,11 +170,8 @@ def act(v):
         b = a.split("*")
         wcl_list = []
 
-        js = 0
         for y in b :
-            if js == 3 :
-                break
-            js +=1 
+
             c = y.strip('\'')
 
             wcl_list.append(c)
@@ -188,31 +185,29 @@ def act(v):
 
 
 @app.route('/det/<v>/')
-def act(v):
+def det(v):
     #活动选择 self.name,self.describe,self.photo,self.body)
-    det_list = Det.query.filter_by(role=a).all()
+    det_list = Det.query.filter_by(name=v).first()
 
-    z_list = []
+    a = str(det_list)
+    b = a.split("*")
+    wcl_list = []
 
-    for x in det_list:
-        a = str(x)
-        b = a.split("*")
-        wcl_list = []
+    for y in b :
 
-        js = 0
-        for y in b :
-            if js == 3 :
-                break
-            js +=1 
-            c = y.strip('\'')
+        c = y.strip('\'')
 
-            wcl_list.append(c)
-
-        z_list.append(wcl_list)
+        wcl_list.append(c)
 
 
-    return render_template('det_choose.html',lista = z_list)
+    #return render_template('',lista = z_list)
+    return str(wcl_list)
 
+
+@app.route('/a/')
+def b():
+
+    return render_template('det.html')
 
 
 

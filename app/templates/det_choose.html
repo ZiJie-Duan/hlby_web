@@ -36,8 +36,56 @@
 
 <body id="top">
 
-	<!-- header 
+
+
+      <!-- header 
    ================================================== -->
+   <header class="short-header">   
+
+      <div class="gradient-block"></div>  
+
+      <div class="row header-content">
+
+         <div class="logo">
+            <a href="index.html">Author</a>
+         </div>
+
+         <nav id="main-nav-wrap">
+            <ul class="main-navigation sf-menu">
+
+               <li><a href="/" title="">HOME</a></li>
+               <li><a href="#" title="">YEAR</a></li>
+
+               <li class="current"><a href="#" title="">ACT</a></li>  
+
+               <li><a href="#" title="">DET</a></li>
+
+               
+               <li class="has-children">
+                  <a href="#" title="">MORE</a>
+                  <ul class="sub-menu">
+                     <li><a href="single-video.html">a1</a></li>
+                     <li><a href="single-audio.html">b1</a></li>
+                     <li><a href="single-gallery.html">c1</a></li>
+                     <li><a href="single-standard.html">d1</a></li>
+                  </ul>
+               </li>
+
+                             
+            </ul>
+         </nav> <!-- end main-nav-wrap -->
+
+         
+
+         <div class="triggers">
+            <a class="search-trigger" href="#"><i class="fa fa-search"></i></a>
+            <a class="menu-toggle" href="#"><span>Menu</span></a>
+         </div> <!-- end triggers -->  
+         
+      </div>         
+      
+   </header> <!-- end header -->
+
    
 
    <!-- masonry
@@ -140,11 +188,11 @@
 
 
 
-         {%for name,describe,photo in lista%}
+         {%for name,describe,photo,body in lista%}
             <article class="brick entry animate-this">
 
                <div class="entry-thumb">
-                  <a href="/act/{{name}}" class="thumb-link">
+                  <a href="/det/{{name}}" class="thumb-link">
                      <img src="{{photo}}" alt="Shutterbug">                      
                   </a>
                </div>

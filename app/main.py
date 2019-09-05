@@ -211,6 +211,85 @@ def det(v):
 
 
 
+
+def two_list_chuli(a):
+
+z_list = []
+
+for x in a:
+    a = str(x)
+    b = a.split("*")
+    wcl_list = []
+
+    for y in b :
+        c = y.strip('\'')
+
+        wcl_list.append(c)
+
+    z_list.append(wcl_list)
+
+return z_list
+
+
+
+
+@app.route('/api/',methods=['POST','GET'])
+def apidk():
+    text=request.args.get('config')
+    if text is not None:
+        a = str(text)
+        d = a.strip("\"")
+        zlist = d.split("å")
+
+        if zlist[0] == "update":
+            if zlist[1] == "year":
+                #“update å years å year_name å describe å photo_path”
+                tjb = Years(year = zlist[2],describe = zlist[3],photo = zlist[4])
+                db.session.add(tjb)
+                db.session.commit()
+
+            if zlist[1] == "activity":
+                #“update å activity å activity_name å describe å photo_path å year_id”
+                a = Years.query.filter_by(year=zlist[5]).first()
+                tjb = Act(activity = zlist[2] ,describe = zlist[3],photo = zlist[4],role=a)#,years_id=b
+                db.session.add(tjb)
+                db.session.commit()
+
+            if zlist[1] == "det":
+                #“update å det å det_name å describe å photo_path å body å act_id”
+                a = Act.query.filter_by(activity=zlist[6]).first()
+                tjb = Det(name = zlist[2],describe = zlist[3],photo = zlist[4],body=zlist[5],role=a)
+                db.session.add(tjb)
+                db.session.commit()
+
+        if zlist[0] == "delete":
+            if zlist[1] == "year":
+
+            if zlist[1] == "activity":
+
+            if zlist[1] == "det":
+
+        if zlist[0] == "search":
+
+            if zlist[1] == "year":
+
+                a = Years.query.all()
+
+                return two_list_chuli(a)
+
+            if zlist[1] == "activity":
+                
+                a = Act.query.all()
+
+                return two_list_chuli(a)
+
+            if zlist[1] == "det":
+
+                a = Det.query.all()
+
+                return two_list_chuli(a)
+
+
 '''
 
 @app.route("/api/upload/",methods=['POST','GET'])
@@ -226,7 +305,9 @@ def upjpg():
         return '发送完成'
     else:
         return '发送失败'
-    
+
+'''
+
 
 
 @app.route('/api/',methods=['POST','GET'])
@@ -235,7 +316,7 @@ def apidk():
     if text is not None:
         a = str(text)
         d = a.strip("\"")
-        b = d.split("*")
+        b = d.split("å")
         actname = b[0]
         actms = b[1]
         actfile = b[2]
@@ -259,7 +340,7 @@ def apidk():
         
     return str(sss)
 
-
+'''
 @app.route('/api/del/',methods=['POST','GET'])
 def apidel():
     text=request.args.get('f')
@@ -276,8 +357,8 @@ def apidel():
 
         
     return "删除完成!"
-
 '''
+
 if __name__ == '__main__':
     #app.run(host='0.0.0.0',port=443,ssl_context=("fullchain.pem","privkey.pem"))
     #app.run(host='0.0.0.0',debug = True,port=443,ssl_context=("fullchain.pem","privkey.pem"))

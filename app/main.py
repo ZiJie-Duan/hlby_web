@@ -153,7 +153,7 @@ def year(v):
         z_list.append(wcl_list)
 
 
-    return render_template('choose.html',lista = z_list)
+    return render_template('one.html',lista = z_list)
 
 
 
@@ -179,7 +179,7 @@ def act(v):
         z_list.append(wcl_list)
 
 
-    return render_template('det_choose.html',lista = z_list)
+    return render_template('two.html',lista = z_list)
 
 
 
@@ -199,18 +199,15 @@ def det(v):
 
         wcl_list.append(c)
 
+    z_list = []
+    zw = wcl_list[-1]
+    zw = zw.split("∂")
+    for x in zw:
+        x = x.split("ƒ")
+        z_list.append(x)
 
-    #return render_template('',lista = z_list)
-    return str(wcl_list)
 
-
-@app.route('/a/')
-def b():
-
-    lista = [["img","/static/img/det_min/a.jpg"]]
-
-    return render_template('det.html',lista=lista)
-
+    return render_template('three.html',lista = z_list)
 
 
 

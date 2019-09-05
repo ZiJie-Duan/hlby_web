@@ -96,11 +96,10 @@ class Det(db.Model):
 
 db.create_all()
 
-
 b = Years(year = "2019年上半学期",describe = "快乐的一学期",photo = "/static/img/year_min/a.jpg")
 c = Act(activity = "开学初军训" ,describe = "快乐的军训",photo = "/static/img/act_min/e.jpg",role=b)#,years_id=b
 e = Act(activity = "教师节活动" ,describe = "快乐的教师节",photo = "/static/img/act_min/c.jpg",role=b)#,years_id=b
-d = Det(name = "丑陋的素颜学生们",describe = "快乐的军训",photo = "/static/img/det_min/a.jpg",body="这是正文",role=c)
+d = Det(name = "丑陋的素颜学生们",describe = "快乐的军训",photo = "/static/img/det_min/a.jpg",body="h1ƒ这是一个大标题∂h6ƒ\"这是一个小标题\"",role=c)
 #c = Act(activity = "第一次校会",hphoto="1.jpg",file_wjj = "a",describe="这是我们第一次校会哈哈哈哈哈")
 #g = Act(activity = "第二次校会",hphoto="5.jpg",file_wjj = "b",describe="这是我们第er次校会哈哈哈哈哈")
 #d = Potx(photoname = "2.jpg",describe="这也不知道是啥",role = c)

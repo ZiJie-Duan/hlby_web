@@ -97,9 +97,10 @@ class Det(db.Model):
 db.create_all()
 
 
-b = Years(year = "a1",describe = "快乐的一学期",photo = "a.png")
-c = Act(activity = "开学初军训" ,describe = "快乐的军训",photo = "b.png",role=b)#,years_id=b
-d = Det(name = "开学了！",describe = "快乐的军训",photo = "c.png",body="这是正文",role=c)
+b = Years(year = "你好",describe = "快乐的一学期",photo = "/static/img/year_min/a.jpg")
+c = Act(activity = "开学初军训" ,describe = "快乐的军训",photo = "/static/img/act_min/e.jpg",role=b)#,years_id=b
+e = Act(activity = "开学校会" ,describe = "快乐的校会",photo = "/static/img/act_min/c.jpg",role=b)#,years_id=b
+d = Det(name = "开学了！",describe = "快乐的军训",photo = "/static/img/det_min/a.jpg",body="这是正文",role=c)
 #c = Act(activity = "第一次校会",hphoto="1.jpg",file_wjj = "a",describe="这是我们第一次校会哈哈哈哈哈")
 #g = Act(activity = "第二次校会",hphoto="5.jpg",file_wjj = "b",describe="这是我们第er次校会哈哈哈哈哈")
 #d = Potx(photoname = "2.jpg",describe="这也不知道是啥",role = c)
@@ -109,5 +110,6 @@ d = Det(name = "开学了！",describe = "快乐的军训",photo = "c.png",body=
 db.session.add(b)
 db.session.add(c)
 db.session.add(d)
+db.session.add(e)
 
 db.session.commit()

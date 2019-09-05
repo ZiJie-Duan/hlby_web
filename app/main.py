@@ -88,7 +88,7 @@ class Det(db.Model):
     act_id = db.Column(db.Integer, db.ForeignKey('act.id'))
     #返回函数
     def __repr__(self):
-        return "%r*%r*%r" % (self.name,self.describe,self.photo,self.body)
+        return "%r*%r*%r*%r" % (self.name,self.describe,self.photo,self.body)
 
 #数据库---------模型声明----------
 
@@ -112,23 +112,31 @@ def internal_server_error(e):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    a = Years.query.all()
+
+    z_list = []
+
+    for x in a:
+        a = str(x)
+        b = a.split("*")
+        wcl_list = []
+
+        for y in b :
+            c = y.strip('\'')
+
+            wcl_list.append(c)
+
+        z_list.append(wcl_list)
+
+    return render_template('index.html',lista = z_list)
 
 
-@app.route('/years/<v>')
+@app.route('/years/<v>/')
 def year(v):
     #年度学期页面生成 self.year,self.describe,self.photo
     #self.activity,self.describe,self.photo
-
     a = Years.query.filter_by(year=v).first()
     b = Act.query.filter_by(role=a).all()
-
-    tyear_list = []
-    yearss = str(a)
-    year_list = yearss.split("*")
-    for x in year_list :
-        c = x.strip('\'')
-        tyear_list.append(c)
 
     z_list = []
 
@@ -145,23 +153,15 @@ def year(v):
         z_list.append(wcl_list)
 
 
-    return render_template('choose.html',lista = tyear_list,listb = z_list)
+    return render_template('choose.html',lista = z_list)
 
 
 
-@app.route('/act/<v>')
+@app.route('/act/<v>/')
 def act(v):
     #活动选择 self.name,self.describe,self.photo,self.body
     a = Act.query.filter_by(activity=v).first()
     det_list = Det.query.filter_by(role=a).all()
-
-    tact_list = []
-    actt = str(a)
-    actlist = actt.split("*")
-    for x in actlist:
-        c = x.strip('\'')
-        tact_list.append(c)
-
 
     z_list = []
 
@@ -170,14 +170,52 @@ def act(v):
         b = a.split("*")
         wcl_list = []
 
+        js = 0
         for y in b :
+            if js == 3 :
+                break
+            js +=1 
             c = y.strip('\'')
 
             wcl_list.append(c)
 
         z_list.append(wcl_list)
 
-    return render_template('choose.html',lista = tyear_list,listb = z_list)
+
+    return render_template('det_choose.html',lista = z_list)
+
+
+
+
+@app.route('/det/<v>/')
+def act(v):
+    #活动选择 self.name,self.describe,self.photo,self.body)
+    det_list = Det.query.filter_by(role=a).all()
+
+    z_list = []
+
+    for x in det_list:
+        a = str(x)
+        b = a.split("*")
+        wcl_list = []
+
+        js = 0
+        for y in b :
+            if js == 3 :
+                break
+            js +=1 
+            c = y.strip('\'')
+
+            wcl_list.append(c)
+
+        z_list.append(wcl_list)
+
+
+    return render_template('det_choose.html',lista = z_list)
+
+
+
+
 
 '''
 

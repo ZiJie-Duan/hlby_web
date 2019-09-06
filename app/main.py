@@ -48,30 +48,11 @@ class Years(db.Model):
     photo = db.Column(db.String(64))
 
     #外键被链接
-    acts = db.relationship('Act', backref='role')
+    dets = db.relationship('Det', backref='role')
 
     #返回函数
     def __repr__(self):
         return "%r*%r*%r" % (self.year,self.describe,self.photo)
-
-
-class Act(db.Model):
-    #用于保存活动的模型
-    __tablename__ = 'act'
-    #设置id表头
-    id = db.Column(db.Integer, primary_key = True)
-    activity = db.Column(db.String(64), unique=True, index=True)
-    describe = db.Column(db.Text)
-    photo = db.Column(db.String(64))
-
-    #外键被链接
-    dets = db.relationship('Det', backref='role')
-    #设置外键连接方
-    years_id = db.Column(db.Integer, db.ForeignKey('years.id'))
-
-    #返回函数
-    def __repr__(self):
-        return "%r*%r*%r" % (self.activity,self.describe,self.photo)
 
 
 class Det(db.Model):
@@ -85,7 +66,7 @@ class Det(db.Model):
     body = db.Column(db.Text)
 
     #设定外键（有可能这个注释是错误的）
-    act_id = db.Column(db.Integer, db.ForeignKey('act.id'))
+    year_id = db.Column(db.Integer, db.ForeignKey('years.id'))
     #返回函数
     def __repr__(self):
         return "%r*%r*%r*%r" % (self.name,self.describe,self.photo,self.body)
@@ -136,7 +117,7 @@ def year(v):
     #年度学期页面生成 self.year,self.describe,self.photo
     #self.activity,self.describe,self.photo
     a = Years.query.filter_by(year=v).first()
-    b = Act.query.filter_by(role=a).all()
+    b = Det.query.filter_by(role=a).all()
 
     z_list = []
 
@@ -154,33 +135,6 @@ def year(v):
 
 
     return render_template('one.html',lista = z_list)
-
-
-
-@app.route('/act/<v>/')
-def act(v):
-    #活动选择 self.name,self.describe,self.photo,self.body
-    a = Act.query.filter_by(activity=v).first()
-    det_list = Det.query.filter_by(role=a).all()
-
-    z_list = []
-
-    for x in det_list:
-        a = str(x)
-        b = a.split("*")
-        wcl_list = []
-
-        for y in b :
-
-            c = y.strip('\'')
-
-            wcl_list.append(c)
-
-        z_list.append(wcl_list)
-
-
-    return render_template('two.html',lista = z_list)
-
 
 
 
@@ -248,16 +202,10 @@ def apidk():
                 db.session.add(tjb)
                 db.session.commit()
 
-            if zlist[1] == "activity":
-                #“update å activity å activity_name å describe å photo_path å year_id”
-                a = Years.query.filter_by(year=zlist[5]).first()
-                tjb = Act(activity = zlist[2] ,describe = zlist[3],photo = zlist[4],role=a)#,years_id=b
-                db.session.add(tjb)
-                db.session.commit()
 
             if zlist[1] == "det":
                 #“update å det å det_name å describe å photo_path å body å act_id”
-                a = Act.query.filter_by(activity=zlist[6]).first()
+                a = Years.query.filter_by(activity=zlist[6]).first()
                 tjb = Det(name = zlist[2],describe = zlist[3],photo = zlist[4],body=zlist[5],role=a)
                 db.session.add(tjb)
                 db.session.commit()
@@ -265,7 +213,6 @@ def apidk():
         if zlist[0] == "delete":
             if zlist[1] == "year":
 
-            if zlist[1] == "activity":
 
             if zlist[1] == "det":
                 '''
@@ -278,11 +225,6 @@ def apidk():
 
                 return two_list_chuli(a)
 
-            if zlist[1] == "activity":
-                
-                a = Act.query.all()
-
-                return two_list_chuli(a)
 
             if zlist[1] == "det":
 

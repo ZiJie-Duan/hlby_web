@@ -37,7 +37,7 @@ db = SQLAlchemy(app)
 
 #数据库---------模型声明----------
 
-		   #导入登陆模块
+           #导入登陆模块
 class Years(db.Model):
     #用于保存用户名以及密码的模型
     __tablename__ = 'years'
@@ -48,30 +48,11 @@ class Years(db.Model):
     photo = db.Column(db.String(64))
 
     #外键被链接
-    acts = db.relationship('Act', backref='role')
+    dets = db.relationship('Det', backref='role')
 
     #返回函数
     def __repr__(self):
         return "%r*%r*%r" % (self.year,self.describe,self.photo)
-
-
-class Act(db.Model):
-    #用于保存活动的模型
-    __tablename__ = 'act'
-    #设置id表头
-    id = db.Column(db.Integer, primary_key = True)
-    activity = db.Column(db.String(64), unique=True, index=True)
-    describe = db.Column(db.Text)
-    photo = db.Column(db.String(64))
-
-    #外键被链接
-    dets = db.relationship('Det', backref='role')
-    #设置外键连接方
-    years_id = db.Column(db.Integer, db.ForeignKey('years.id'))
-
-    #返回函数
-    def __repr__(self):
-        return "%r*%r*%r" % (self.activity,self.describe,self.photo)
 
 
 class Det(db.Model):
@@ -85,21 +66,23 @@ class Det(db.Model):
     body = db.Column(db.Text)
 
     #设定外键（有可能这个注释是错误的）
-    act_id = db.Column(db.Integer, db.ForeignKey('act.id'))
+    year_id = db.Column(db.Integer, db.ForeignKey('years.id'))
     #返回函数
     def __repr__(self):
-        return "%r*%r*%r" % (self.name,self.describe,self.photo,self.body)
+        return "%r*%r*%r*%r" % (self.name,self.describe,self.photo,self.body)
 
 #数据库---------模型声明----------
+
+
+
+
 
 
 
 db.create_all()
 
 b = Years(year = "2019年上半学期",describe = "快乐的一学期",photo = "/static/img/year_min/a.jpg")
-c = Act(activity = "开学初军训" ,describe = "快乐的军训",photo = "/static/img/act_min/e.jpg",role=b)#,years_id=b
-e = Act(activity = "教师节活动" ,describe = "快乐的教师节",photo = "/static/img/act_min/c.jpg",role=b)#,years_id=b
-d = Det(name = "丑陋的素颜学生们",describe = "快乐的军训",photo = "/static/img/det_min/a.jpg",body="h1ƒ这是一个大标题∂h6ƒ\"这是一个小标题\"",role=c)
+d = Det(name = "丑陋的素颜学生们",describe = "快乐的军训",photo = "/static/img/det_min/a.jpg",body="h1ƒ这是一个大标题∂h6ƒ\"这是一个小标题\"",role=b)
 #c = Act(activity = "第一次校会",hphoto="1.jpg",file_wjj = "a",describe="这是我们第一次校会哈哈哈哈哈")
 #g = Act(activity = "第二次校会",hphoto="5.jpg",file_wjj = "b",describe="这是我们第er次校会哈哈哈哈哈")
 #d = Potx(photoname = "2.jpg",describe="这也不知道是啥",role = c)
@@ -107,8 +90,6 @@ d = Det(name = "丑陋的素颜学生们",describe = "快乐的军训",photo = "
 #f = Potx(photoname = "4.jpg",describe="这也不知道是啥",role = c)
 #db.session.add_all([a,b,c,d,e,f,g])
 db.session.add(b)
-db.session.add(c)
 db.session.add(d)
-db.session.add(e)
 
 db.session.commit()

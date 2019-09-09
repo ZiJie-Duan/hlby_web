@@ -113,7 +113,7 @@
 				   			
 
 				   			
-			   				{%for name,describe,photo in lista%}
+			   				{%for name,describe,photo,body in lista%}
 				   			<li>
 				   				<div class="featured-post-slide">
 
@@ -123,11 +123,11 @@
 
 								   	<div class="post-content">
 								   		<ul class="entry-meta">
-												<li>text</li>
-												<li><a href="/act/{{name}}" class="author">text2</a></li>					
+												<li><a href="#" class="author">text2</a></li></li>
+												<li><a href="#" class="author">text2</a></li>					
 											</ul>	
 
-								   		<h1 class="slide-title"><a href="/act/{{name}}" title="">{{name}}</a></h1>
+								   		<h1 class="slide-title"><a href="/det/{{name}}" title="">{{name}}</a></h1>
 						   			</div>
 
 				   				</div>
@@ -231,11 +231,11 @@
 
 
 
-         {%for name,describe,photo in lista%}
+         {%for name,describe,photo,body in lista%}
             <article class="brick entry animate-this">
 
                <div class="entry-thumb">
-                  <a href="/act/{{name}}" class="thumb-link">
+                  <a href="/det/{{name}}" class="thumb-link">
                      <img src="{{photo}}" alt="Shutterbug">                      
                   </a>
                </div>
@@ -245,12 +245,12 @@
 
                      <div class="entry-meta">
                         <span class="cat-links">
-                           <a href="/act/{{name}}">detail.</a> 
-                           <a href="/act/{{name}}">html</a>                            
+                           <a href="#">detail.</a> 
+                           <a href="#">html</a>                            
                         </span>        
                      </div>
 
-                     <h1 class="entry-title"><a href="single-standard.html">{{name}}</a></h1>
+                     <h1 class="entry-title"><a href="/det/{{name}}">{{name}}</a></h1>
                      
                   </div>
                   <div class="entry-excerpt">
@@ -275,8 +275,10 @@
    		<nav class="pagination">
 		      <span class="page-numbers prev inactive">Pre</span>
 		   	<span class="page-numbers current">1</span>
+             <!-- end
 		   	<a href="#" class="page-numbers">2</a>
-		      <a href="#" class="page-numbers">3</a>
+		      <a href="#" class="page-numbers">3</a> 
+         -->
 		   	<a href="#" class="page-numbers next">Next</a>
 	      </nav>
 

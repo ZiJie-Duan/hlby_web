@@ -161,7 +161,7 @@ def det(v):
         z_list.append(x)
 
 
-    return render_template('three.html',lista = z_list)
+    return render_template('det.html',lista = z_list)
 
 
 

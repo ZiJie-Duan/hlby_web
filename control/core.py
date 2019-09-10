@@ -10,11 +10,10 @@ import requests
 
 def help():
 	print("help ------------ 帮助选项(查看文档详细信息)")
-	print("up [cho] [body] - 创建提交数据库信息")
+	print("sc [cho] -------- 搜索数据库信息")
 	print("de [cho] [name] - 删除数据库信息")
-	print("sc [cho] [none] - 搜索数据库信息")
-	print("img [file_name] - 上传图像文件")
-	print("rd [file_name] -- 读取excil文档内容")
+	print("img [path_name] - 上传图像文件")
+	print("rd [file_name] -- 读取excil上传格式")
 
 
 def main():
@@ -32,8 +31,6 @@ def core_cmd(cmd):
 
 	if cmd[0] == "help":
 		help()
-	if cmd[0] == "up":
-		update(cmd)
 	if cmd[0] == "de":
 		help()
 	if cmd[0] == "sc":
@@ -41,13 +38,14 @@ def core_cmd(cmd):
 	if cmd[0] == "img":
 		help()
 	if cmd[0] == "rd":
-		read_word(cmd[1])
+		core_update(cmd)
+		
 
 
 
 
-def read_word(path):
-	#用于读取word的函数
+def read_excil(path):
+	#用于读取exicil的函数
 	#返回一个二维数组
 	word = []
 	#打开xlsx
@@ -56,9 +54,31 @@ def read_word(path):
 	sheet = workbook.sheet_by_index(0)#使用索引导出
 
 	#将表中的值按列导出
-	ch2 = sheet.col_values(0)
-
 	en2 = sheet.col_values(1)
+
+	ch = []
+
+	#全部转为str以防出现错误
+	for x in en2:
+		y = str(x)
+		ch.append(y)
+
+	return ch
+
+
+def read_word_for_det_body(path):
+	#用于读取excil的函数
+	#返回一个二维数组
+	word = []
+	#打开xlsx
+	workbook = xlrd.open_workbook(path)
+	#导出一个表
+	sheet = workbook.sheet_by_index(0)#使用索引导出
+
+	#将表中的值按列导出
+	ch2 = sheet.col_values(2)
+
+	en2 = sheet.col_values(3)
 	ch = []
 	en = []
 	#全部转为str以防出现错误
@@ -89,11 +109,11 @@ def read_word(path):
 
 	final_list = '∂'.join(lbfh_list)
 
-	print(final_list)
+	return final_list
 
 
 
-#这里是主函数
+'''
 def change_img_name(name_head):
 
 	a, b = get_img_name(jdlj, name_head)
@@ -104,38 +124,59 @@ def change_img_name(name_head):
 	#b是只有更改后图片的名字的列表
 	return a, b
 
+'''
 
+def core_update(cmd):
 
-def update(cmd):
-	#上传函数
-	if cmd[1] == "year":
+	up_date_list = read_excil(cmd[1])
+	if up_date_list[0] == "year":
 		api = "update"
-		cho = cmd[1]
-		year_name = cmd[2]
-		describe = cmd[3]
-		photo_user_path = cmd[4]
+		cho = up_date_list[1]
+		year_name = up_date_list[2]
+		describe = up_date_list[3]
+		photo_user_path = up_date_list[4]
 		photo_path = "/static/img/year_min/" + photo_user_path
 		data = "http://127.0.0.1:5000/api/?config="+api+"å"+cho+"å"\
 		+year_name+"å"+describe+"å"+photo_path
 
+		print("\n")
+		print("api:"+ api)
+		print("cho:" + cho)
+		print("name:" + year_name)
+		print("describe:" + describe)
+		print("photo_path:" + photo_path)
+		print("send_data:" + data)
+		input("按下回车进行发送...")
+
 		send_get_http(data)
 
 
-	if cmd[1] == "det":
+
+	if up_date_list[0] == "det":
+		det_body = read_word_for_det_body(cmd[1])
 		api = "update"
-		cho = cmd[1]
-		detname = cmd[2]
-		describe = cmd[3]
-		photo_user_path = cmd[4]
+		cho = up_date_list[1]
+		detname = up_date_list[2]
+		describe = up_date_list[3]
+		photo_user_path = up_date_list[4]
 		photo_path = "/static/img/det_min/" + photo_user_path
-		body = cmd[5]
-		act_id = cmd[6]
+		body = str(det_body)
+		act_id = up_date_list[5]
 		data = "http://127.0.0.1:5000/api/?config="+api+"å"+cho+"å"\
 		+detname+"å"+describe+"å"+photo_path+"å"+body+"å"+act_id
 
-		send_get_http(data)
-	
+		print("\n")
+		print("api:"+ api)
+		print("cho:" + cho)
+		print("name:" + detname)
+		print("describe:" + describe)
+		print("photo_path:" + photo_path)
+		print("body:" + body)
+		print("act_id:" + act_id)
+		print("send_data:" + data)
+		input("按下回车进行发送...")
 
+		send_get_http(data)
 
 
 

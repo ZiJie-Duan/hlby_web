@@ -46,7 +46,7 @@ def update_img(cmd):
 
 	for x in path:
 		url = "http://127.0.0.1:5000/api/upload/"
-		newname = x.split('\\')
+		newname = x.split('/')
 		s = newname[len(newname)-1]
 
 		files = {'file':(s,open(x,'rb'),'image/jpg')}
@@ -314,11 +314,11 @@ def get_img_name(Jdlj, head_of_img_name):
 
 	#生成现在列表
 	for a in name_list:
-		now_list.append(Jdlj + '\\' + head_of_img_name + '!' + a)
+		now_list.append(Jdlj + '/' + a)
 
 	#生成外来列表
 	for b in uuid_list:
-		future_list.append(Jdlj + '\\' + head_of_img_name + '!' + b + '.jpg')
+		future_list.append(Jdlj + '/' + head_of_img_name + '!' + b + '.jpg')
 
 	#生成二位列表
 	#生成暂存列表

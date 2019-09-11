@@ -205,7 +205,7 @@ def apidk():
 
             if zlist[1] == "det":
                 #“update å det å det_name å describe å photo_path å body å act_id”
-                a = Years.query.filter_by(activity=zlist[6]).first()
+                a = Years.query.filter_by(year=zlist[6]).first()
                 tjb = Det(name = zlist[2],describe = zlist[3],photo = zlist[4],body=zlist[5],role=a)
                 db.session.add(tjb)
                 db.session.commit()
@@ -233,7 +233,7 @@ def apidk():
                 return two_list_chuli(a)
 
 
-'''
+
 
 @app.route("/api/upload/",methods=['POST','GET'])
 def upjpg():
@@ -241,15 +241,26 @@ def upjpg():
     upload_file = request.files['file']
     
     old_file_name = upload_file.filename
+    yz_name = old_file_name.split("!")
+
     if upload_file:
-        file_path = os.path.join("/zzz/hlby_web/app/static/img/", old_file_name)
-        upload_file.save(file_path)
+
+        if yz_name == "year_min":
+            file_path = os.path.join("/static/img/year_min/", old_file_name)
+            upload_file.save(file_path)
+
+        if yz_name == "det_min":
+            file_path = os.path.join("/static/img/det_min/", old_file_name)
+            upload_file.save(file_path)
+
+        if yz_name == "det":
+            file_path = os.path.join("/static/img/det/", old_file_name)
+            upload_file.save(file_path)
         
         return '发送完成'
     else:
         return '发送失败'
 
-'''
 '''
 
 

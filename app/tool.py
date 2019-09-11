@@ -81,15 +81,15 @@ class Det(db.Model):
 
 db.create_all()
 
-b = Years(year = "2019年上半学期",describe = "快乐的一学期",photo = "/static/img/year_min/a.jpg")
-d = Det(name = "丑陋的素颜学生们",describe = "快乐的军训",photo = "/static/img/det_min/a.jpg",body="h1ƒ这是一个大标题∂h6ƒ\"这是一个小标题\"",role=b)
+#b = Years(year = "2019年上半学期",describe = "快乐的一学期",photo = "/static/img/year_min/a.jpg")
+#d = Det(name = "丑陋的素颜学生们",describe = "快乐的军训",photo = "/static/img/det_min/a.jpg",body="h1ƒ这是一个大标题∂h6ƒ\"这是一个小标题\"",role=b)
 #c = Act(activity = "第一次校会",hphoto="1.jpg",file_wjj = "a",describe="这是我们第一次校会哈哈哈哈哈")
 #g = Act(activity = "第二次校会",hphoto="5.jpg",file_wjj = "b",describe="这是我们第er次校会哈哈哈哈哈")
 #d = Potx(photoname = "2.jpg",describe="这也不知道是啥",role = c)
 #e = Potx(photoname = "3.jpg",describe="这也不知道是啥",role = c)
 #f = Potx(photoname = "4.jpg",describe="这也不知道是啥",role = c)
 #db.session.add_all([a,b,c,d,e,f,g])
-db.session.add(b)
-db.session.add(d)
+#db.session.add(b)
+#db.session.add(d)
 
-db.session.commit()
+#db.session.commit()

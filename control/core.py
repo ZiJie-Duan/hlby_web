@@ -1,19 +1,18 @@
 import requests
 import xlrd
-'''
 import os
-import uuid
 import piexif
 from PIL import Image
 import requests
-'''
+import uuid
+
 
 def help():
-	print("help ------------ 帮助选项(查看文档详细信息)")
-	print("sc [cho] -------- 搜索数据库信息")
-	print("de [cho] [name] - 删除数据库信息")
-	print("img [path_name] - 上传图像文件")
-	print("rd [file_name] -- 读取excil上传格式")
+	print("help ------------------- 帮助选项(查看文档详细信息)")
+	print("sc [cho] --------------- 搜索数据库信息")
+	print("de [cho] [name] -------- 删除数据库信息")
+	print("img [path][name][sys] -- 上传图像文件")
+	print("rd [file_name] --------- 读取excil上传格式")
 
 
 def main():
@@ -36,11 +35,35 @@ def core_cmd(cmd):
 	if cmd[0] == "sc":
 		help()
 	if cmd[0] == "img":
-		help()
+		update_img(cmd)
+		
 	if cmd[0] == "rd":
 		core_update(cmd)
 		
 
+def update_img(cmd):
+	path,name = change_img_name(cmd[1],cmd[2])
+
+	for x in path:
+		url = "http://127.0.0.1:5000/api/upload/"
+		newname = x.split('\\')
+		s = newname[len(newname)-1]
+
+		files = {'file':(s,open(x,'rb'),'image/jpg')}
+		
+		print("照片%r信息处理完成！" %(x))
+		js = 0
+
+		while js < 3:
+			try:
+				#r = requests.post(url,files = files, verify=False, timeout=5)
+				r = requests.post(url,files = files, timeout=5)
+				result = r.text
+				print("照片%r传输完成！" %(x))
+				js = 4
+			except:
+				js += 1
+				print("照片传输超时！正在重连(%r/3)" %(str(js)))
 
 
 
@@ -113,28 +136,25 @@ def read_word_for_det_body(path):
 
 
 
-'''
-def change_img_name(name_head):
+def change_img_name(jdlj,name_head):
 
 	a, b = get_img_name(jdlj, name_head)
 	changejpgexif(a)
-
 
 	#a是带有绝对路径的列表
 	#b是只有更改后图片的名字的列表
 	return a, b
 
-'''
 
 def core_update(cmd):
 
 	up_date_list = read_excil(cmd[1])
 	if up_date_list[0] == "year":
 		api = "update"
-		cho = up_date_list[1]
-		year_name = up_date_list[2]
-		describe = up_date_list[3]
-		photo_user_path = up_date_list[4]
+		cho = up_date_list[0]
+		year_name = up_date_list[1]
+		describe = up_date_list[2]
+		photo_user_path = up_date_list[3]
 		photo_path = "/static/img/year_min/" + photo_user_path
 		data = "http://127.0.0.1:5000/api/?config="+api+"å"+cho+"å"\
 		+year_name+"å"+describe+"å"+photo_path
@@ -155,13 +175,13 @@ def core_update(cmd):
 	if up_date_list[0] == "det":
 		det_body = read_word_for_det_body(cmd[1])
 		api = "update"
-		cho = up_date_list[1]
-		detname = up_date_list[2]
-		describe = up_date_list[3]
-		photo_user_path = up_date_list[4]
+		cho = up_date_list[0]
+		detname = up_date_list[1]
+		describe = up_date_list[2]
+		photo_user_path = up_date_list[3]
 		photo_path = "/static/img/det_min/" + photo_user_path
 		body = str(det_body)
-		act_id = up_date_list[5]
+		act_id = up_date_list[4]
 		data = "http://127.0.0.1:5000/api/?config="+api+"å"+cho+"å"\
 		+detname+"å"+describe+"å"+photo_path+"å"+body+"å"+act_id
 
@@ -192,10 +212,6 @@ def send_get_http(data):
 		except:
 			js += 1
 			print("传输超时！正在重连(%r/3)" %(str(js)))
-
-
-
-'''
 
 
 def changejpgexif(listb):
@@ -252,16 +268,16 @@ jdlj = os.path.dirname(os.path.abspath(__file__))
 
 def get_img_name(Jdlj, head_of_img_name):
 
-	#一个装有图片名称的列表 只有名称没有路径
+	#一个装有图片名称的列表 名称+路径
 	name_list = []
 
 	#图片的数量
 	img_num = 0
 
-	#uuid列表
+	#uuid列表 名称+路径
 	uuid_list = []
 
-	#现在路径的列表
+	#现在无路径
 	now_list = []
 
 	#未来路径的列表 带有结对路径
@@ -302,29 +318,26 @@ def get_img_name(Jdlj, head_of_img_name):
 
 	#生成外来列表
 	for b in uuid_list:
-		future_list.append(head_of_img_name + '!' + b + '.jpg')
+		future_list.append(Jdlj + '\\' + head_of_img_name + '!' + b + '.jpg')
 
 	#生成二位列表
 	#生成暂存列表
 	x = []
 	for y in range(0, len(now_list)):
-		x.append(name_list[y])
+		x.append(now_list[y])
 		x.append(future_list[y])
 		quadratic_list.append(x)
 		x = []
 
-	
+
 	for o, n in quadratic_list:
 		os.rename(o, n)
 	
 
 	#now_list是带有绝对路径的列表
 	#name_list是只有更改后图片的名字的列表
-	return now_list, name_list
+	return future_list, uuid_list
 	
-
-'''
-
 
 
 

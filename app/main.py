@@ -246,15 +246,15 @@ def upjpg():
     if upload_file:
 
         if yz_name == "year_min":
-            file_path = os.path.join("/static/img/year_min/", old_file_name)
+            file_path = os.path.join("hlby_web/static/img/year_min/", old_file_name)
             upload_file.save(file_path)
 
         if yz_name == "det_min":
-            file_path = os.path.join("/static/img/det_min/", old_file_name)
+            file_path = os.path.join("hlby_web/static/img/det_min/", old_file_name)
             upload_file.save(file_path)
 
         if yz_name == "det":
-            file_path = os.path.join("/static/img/det/", old_file_name)
+            file_path = os.path.join("hlby_web/static/img/det/", old_file_name)
             upload_file.save(file_path)
         
         return '发送完成'
@@ -316,7 +316,8 @@ def apidel():
 if __name__ == '__main__':
     #app.run(host='0.0.0.0',port=443,ssl_context=("fullchain.pem","privkey.pem"))
     #app.run(host='0.0.0.0',debug = True,port=443,ssl_context=("fullchain.pem","privkey.pem"))
-    app.run(host='127.0.0.1',port=5000,debug = True)
+    #app.run(host='127.0.0.1',port=80,debug = True)
+    app.run(host='0.0.0.0',port=80)
 
     #app.run(host='0.0.0.0',debug = True,port=80)
 

@@ -189,8 +189,17 @@ def two_list_chuli(a):
 
 @app.route('/api/',methods=['POST','GET'])
 def apidk():
-    text=request.args.get('config')
+
+    text=request.get_data() 
+
+    print(text)
     if text is not None:
+
+        text = str(text)
+        text = text[2:]
+        text = text[:-1]
+
+        
         a = str(text)
         d = a.strip("\"")
         zlist = d.split("å")
@@ -204,8 +213,9 @@ def apidk():
 
 
             if zlist[1] == "det":
+                print(zlist)
                 #“update å det å det_name å describe å photo_path å body å act_id”
-                a = Years.query.filter_by(year=zlist[6]).first()
+                a = Years.query.filter_by(year=zlist[5]).first()
                 tjb = Det(name = zlist[2],describe = zlist[3],photo = zlist[4],body=zlist[5],role=a)
                 db.session.add(tjb)
                 db.session.commit()
@@ -235,89 +245,48 @@ def apidk():
 
 
 
-@app.route("/api/upload/",methods=['POST','GET'])
+@app.route("/api/upload/",methods=['POST'])
 def upjpg():
 
     upload_file = request.files['file']
     
     old_file_name = upload_file.filename
-    yz_name = old_file_name.split("!")
+    yz_name = old_file_name.split("†")
+    print(old_file_name)
+    print(yz_name)
 
     if upload_file:
 
-        if yz_name == "year_min":
-            file_path = os.path.join("hlby_web/static/img/year_min/", old_file_name)
+        if yz_name[0] == "year_min":
+            #file_path = os.path.join("hlby_web/static/img/year_min/", old_file_name)
+            file_path = os.path.join("/Users/lucy/Desktop/hlby_web/app/static/img/year_min", old_file_name)
+
             upload_file.save(file_path)
 
-        if yz_name == "det_min":
-            file_path = os.path.join("hlby_web/static/img/det_min/", old_file_name)
+        if yz_name[0] == "det_min":
+            #file_path = os.path.join("hlby_web/static/img/det_min/", old_file_name)
+            file_path = os.path.join("/Users/lucy/Desktop/hlby_web/app/static/img/det_min/", old_file_name)
+
             upload_file.save(file_path)
 
-        if yz_name == "det":
-            file_path = os.path.join("hlby_web/static/img/det/", old_file_name)
+        if yz_name[0] == "det":
+            #file_path = os.path.join("hlby_web/static/img/det/", old_file_name)
+            file_path = os.path.join("/Users/lucy/Desktop/hlby_web/app/static/img/det/", old_file_name)
+
             upload_file.save(file_path)
         
         return '发送完成'
     else:
         return '发送失败'
 
-'''
 
 
-@app.route('/api/',methods=['POST','GET'])
-def apidk():
-    text=request.args.get('config')
-    if text is not None:
-        a = str(text)
-        d = a.strip("\"")
-        b = d.split("å")
-        actname = b[0]
-        actms = b[1]
-        actfile = b[2]
-        photonamew = b[3]
-        
-        sss = photonamew.split("!")
-
-        aa = Act(activity=actname,describe=actms,file_wjj=actfile,hphoto=sss[0])
-
-        db.session.add(aa)
-        js = 0
-        for x in sss:
-            js += 1
-
-            exec(f"a{js} = Potx(photoname=\"{x}\",describe=\"无描述\",role=aa)")
-
-            exec(f"db.session.add(a{js})")
-        
-        db.session.commit()
-
-        
-    return str(sss)
-
-
-@app.route('/api/del/',methods=['POST','GET'])
-def apidel():
-    text=request.args.get('f')
-    if text is not None:
-        text = text.split("!")
-
-        if text[0] == "qaswazxs":
-
-            aa = Act.query.filter_by(file_wjj=text[1]).first()
-            db.session.delete(aa)            
-            db.session.commit()
-        else:
-            return "口令错误！"
-
-        
-    return "删除完成!"
-'''
 
 if __name__ == '__main__':
     #app.run(host='0.0.0.0',port=443,ssl_context=("fullchain.pem","privkey.pem"))
     #app.run(host='0.0.0.0',debug = True,port=443,ssl_context=("fullchain.pem","privkey.pem"))
-    #app.run(host='127.0.0.1',port=80,debug = True)
-    app.run(host='0.0.0.0',port=80)
+    app.run(host='127.0.0.1',port=5000,debug = True)
+    #app.run(host='0.0.0.0',port=80)
 
     #app.run(host='0.0.0.0',debug = True,port=80)
 

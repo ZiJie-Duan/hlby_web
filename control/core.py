@@ -1,17 +1,18 @@
+from urllib import parse
 import requests
 import xlrd
 import os
 import piexif
 from PIL import Image
-import requests
 import uuid
-
+import json
 
 def help():
 	print("help ------------------- 帮助选项(查看文档详细信息)")
 	print("sc [cho] --------------- 搜索数据库信息")
 	print("de [cho] [name] -------- 删除数据库信息")
-	print("img [path][name][sys] -- 上传图像文件")
+	print("img [file_name][name] -- 上传图像文件")
+	print("imgp [path][name] ------ 批量上传图像文件")
 	print("rd [file_name] --------- 读取excil上传格式")
 
 
@@ -30,27 +31,75 @@ def core_cmd(cmd):
 
 	if cmd[0] == "help":
 		help()
+
 	if cmd[0] == "de":
 		help()
+
 	if cmd[0] == "sc":
 		help()
+
 	if cmd[0] == "img":
-		update_img(cmd)
+		update_img(cmd,"one")
+
+	if cmd[0] == "imgp":
+		update_img(cmd,"one+")
 		
 	if cmd[0] == "rd":
 		core_update(cmd)
-		
 
-def update_img(cmd):
-	path,name = change_img_name(cmd[1],cmd[2])
 
-	for x in path:
+
+
+	
+
+def update_img(cmd,mod):
+	if mod == "one+":
+
+		path,name = change_img_name(cmd[1],"det")
+
+		for x in path:
+			url = "http://127.0.0.1:5000/api/upload/"
+			newname = x.split('/')
+			s = newname[len(newname)-1]
+
+			files = {'file':(s,open(x,'rb'),'image/jpg')}
+			
+			print("照片%r信息处理完成！" %(x))
+			js = 0
+
+			while js < 3:
+				try:
+					#r = requests.post(url,files = files, verify=False, timeout=5)
+					r = requests.post(url,files = files, timeout=5)
+					result = r.text
+					print("照片%r传输完成！" %(x))
+					js = 4
+				except:
+					js += 1
+					print("照片传输超时！正在重连(%r/3)" %(str(js)))
+	else:
+
+		now_name = cmd[1]
+		uuidx = uuid.uuid4()
+
+		js_n_lj = now_name.split('/')
+		hz = now_name.split('.')
+		hz = hz[-1]
+		del js_n_lj[-1]
+		jdlj = "/".join(js_n_lj)
+
+		f_name = jdlj + "/" + cmd[2] + "†" + str(uuidx) + "." + hz
+		print(f_name)
+		os.rename(now_name, f_name)
+
+		x = f_name
+
 		url = "http://127.0.0.1:5000/api/upload/"
-		newname = x.split('/')
+		newname = x.split("/")
 		s = newname[len(newname)-1]
 
 		files = {'file':(s,open(x,'rb'),'image/jpg')}
-		
+		print(files)
 		print("照片%r信息处理完成！" %(x))
 		js = 0
 
@@ -111,6 +160,7 @@ def read_word_for_det_body(path):
 
 	for x in en2:
 		y = str(x)
+		y = "/static/img/det/" + y
 		en.append(y)
 
 
@@ -156,8 +206,7 @@ def core_update(cmd):
 		describe = up_date_list[2]
 		photo_user_path = up_date_list[3]
 		photo_path = "/static/img/year_min/" + photo_user_path
-		data = "http://127.0.0.1:5000/api/?config="+api+"å"+cho+"å"\
-		+year_name+"å"+describe+"å"+photo_path
+		data = api+"å"+cho+"å"+year_name+"å"+describe+"å"+photo_path
 
 		print("\n")
 		print("api:"+ api)
@@ -182,8 +231,7 @@ def core_update(cmd):
 		photo_path = "/static/img/det_min/" + photo_user_path
 		body = str(det_body)
 		act_id = up_date_list[4]
-		data = "http://127.0.0.1:5000/api/?config="+api+"å"+cho+"å"\
-		+detname+"å"+describe+"å"+photo_path+"å"+body+"å"+act_id
+		data = api+"å"+cho+"å"+detname+"å"+describe+"å"+photo_path+"å"+body+"å"+act_id
 
 		print("\n")
 		print("api:"+ api)
@@ -201,12 +249,14 @@ def core_update(cmd):
 
 
 def send_get_http(data):
+	url = "http://127.0.0.1:5000/api/"
+	textmod = str(data)
 
 	js = 0
-
+	headers = {'application':'json'}
 	while js < 3 :
 		try:
-			response = requests.get(data, timeout=5)
+			response = requests.post(url, headers=headers, data=textmod)
 			print("申请get方式发送完成！")
 			js = 4
 		except:
@@ -318,7 +368,7 @@ def get_img_name(Jdlj, head_of_img_name):
 
 	#生成外来列表
 	for b in uuid_list:
-		future_list.append(Jdlj + '/' + head_of_img_name + '!' + b + '.jpg')
+		future_list.append(Jdlj + '/' + head_of_img_name + '†' + b + '.jpg')
 
 	#生成二位列表
 	#生成暂存列表

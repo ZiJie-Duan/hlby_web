@@ -138,7 +138,7 @@ def changejpgexif(listb):
 def update_jpg(listc):
 
 	for x in listc:
-		url = "http://35.194.171.135/api/upload/"
+		url = "http://127.0.0.1/api/upload/"
 		newname = x.split('\\')
 		s = newname[len(newname)-1]
 
@@ -187,7 +187,7 @@ def apiput():
 
 	wnln = "!".join(wnl)
 
-	hostsend = "http://35.194.171.135/api/?config=" + actname + "*" + actms + "*" + actfil + "*" + wnln
+	hostsend = "http://127.0.0.1/api/?config=" + actname + "*" + actms + "*" + actfil + "*" + wnln
 	
 	input("\n\n\n本地图像处理已完成 按下回车后开始上传！")
 	

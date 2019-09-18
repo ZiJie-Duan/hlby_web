@@ -161,7 +161,6 @@ def read_word_for_det_body(path):
 
 	for x in en2:
 		y = str(x)
-		y = "/static/img/det/" + y
 		en.append(y)
 
 
@@ -173,8 +172,11 @@ def read_word_for_det_body(path):
 		add_word = [ch[x],en[x]]
 		word.append(add_word)
 
-	print(word)
-	#return word
+
+	#进行照片与普通类型鉴别 并加入相对路径
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 	lbfh_list = []
 	for x in word:
 		y = 'f355c387-57f6-4734-af7e-26af5293d970'.join(x)

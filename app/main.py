@@ -188,8 +188,9 @@ def two_list_chuli(a):
 
 
 
-@app.route('/api/',methods=['POST','GET'])
+@app.route('/api/',methods=['POST'])
 def apidk():
+    
     #重点重点 ！！！中文post提交方法
     text = request.get_data()
     text = unquote(str(text), 'utf-8')
@@ -218,7 +219,7 @@ def apidk():
             if zlist[1] == "det":
                 print(zlist)
                 #“update 899340aa-5a52-42c4-b0ae-da135b0acb1f det 899340aa-5a52-42c4-b0ae-da135b0acb1f det_name 899340aa-5a52-42c4-b0ae-da135b0acb1f describe 899340aa-5a52-42c4-b0ae-da135b0acb1f photo_path 899340aa-5a52-42c4-b0ae-da135b0acb1f body 899340aa-5a52-42c4-b0ae-da135b0acb1f act_id”
-                a = Years.query.filter_by(year=zlist[5]).first()
+                a = Years.query.filter_by(year=zlist[6]).first()
                 tjb = Det(name = zlist[2],describe = zlist[3],photo = zlist[4],body=zlist[5],role=a)
                 db.session.add(tjb)
                 db.session.commit()

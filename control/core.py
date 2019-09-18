@@ -1,4 +1,5 @@
 from urllib import parse
+from urllib.parse import quote
 import requests
 import xlrd
 import os
@@ -88,7 +89,7 @@ def update_img(cmd,mod):
 		del js_n_lj[-1]
 		jdlj = "/".join(js_n_lj)
 
-		f_name = jdlj + "/" + cmd[2] + "†" + str(uuidx) + "." + hz
+		f_name = jdlj + "/" + cmd[2] + "9046380f-3b5c-4cce-acd6-31a4f0088228" + str(uuidx) + "." + hz
 		print(f_name)
 		os.rename(now_name, f_name)
 
@@ -176,11 +177,11 @@ def read_word_for_det_body(path):
 	#return word
 	lbfh_list = []
 	for x in word:
-		y = 'ƒ'.join(x)
+		y = 'f355c387-57f6-4734-af7e-26af5293d970'.join(x)
 		lbfh_list.append(y)
 
 
-	final_list = '∂'.join(lbfh_list)
+	final_list = '295ff6c3-032b-4a83-a397-1cc0e754f785'.join(lbfh_list)
 
 	return final_list
 
@@ -206,7 +207,7 @@ def core_update(cmd):
 		describe = up_date_list[2]
 		photo_user_path = up_date_list[3]
 		photo_path = "/static/img/year_min/" + photo_user_path
-		data = api+"å"+cho+"å"+year_name+"å"+describe+"å"+photo_path
+		data = api+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+cho+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+year_name+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+describe+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+photo_path
 
 		print("\n")
 		print("api:"+ api)
@@ -231,7 +232,7 @@ def core_update(cmd):
 		photo_path = "/static/img/det_min/" + photo_user_path
 		body = str(det_body)
 		act_id = up_date_list[4]
-		data = api+"å"+cho+"å"+detname+"å"+describe+"å"+photo_path+"å"+body+"å"+act_id
+		data = api+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+cho+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+detname+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+describe+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+photo_path+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+body+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+act_id
 
 		print("\n")
 		print("api:"+ api)
@@ -249,8 +250,12 @@ def core_update(cmd):
 
 
 def send_get_http(data):
+
 	url = "http://127.0.0.1:5000/api/"
-	textmod = str(data)
+
+	#重点重点 ！！！中文post提交方法
+	textmod = quote(data, 'utf-8')
+	#重点重点 ！！！中文post提交方法
 
 	js = 0
 	headers = {'application':'json'}
@@ -368,7 +373,7 @@ def get_img_name(Jdlj, head_of_img_name):
 
 	#生成外来列表
 	for b in uuid_list:
-		future_list.append(Jdlj + '/' + head_of_img_name + '†' + b + '.jpg')
+		future_list.append(Jdlj + '/' + head_of_img_name + '9046380f-3b5c-4cce-acd6-31a4f0088228' + b + '.jpg')
 
 	#生成二位列表
 	#生成暂存列表

@@ -1,4 +1,5 @@
 import os
+from urllib.parse import unquote
 from flask import Flask, render_template, session, redirect, url_for, flash,request, g
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
@@ -155,9 +156,9 @@ def det(v):
 
     z_list = []
     zw = wcl_list[-1]
-    zw = zw.split("∂")
+    zw = zw.split("295ff6c3-032b-4a83-a397-1cc0e754f785")
     for x in zw:
-        x = x.split("ƒ")
+        x = x.split("f355c387-57f6-4734-af7e-26af5293d970")
         z_list.append(x)
 
 
@@ -189,8 +190,10 @@ def two_list_chuli(a):
 
 @app.route('/api/',methods=['POST','GET'])
 def apidk():
-
-    text=request.get_data() 
+    #重点重点 ！！！中文post提交方法
+    text = request.get_data()
+    text = unquote(str(text), 'utf-8')
+    #重点重点 ！！！中文post提交方法
 
     print(text)
     if text is not None:
@@ -202,11 +205,11 @@ def apidk():
         
         a = str(text)
         d = a.strip("\"")
-        zlist = d.split("å")
+        zlist = d.split("899340aa-5a52-42c4-b0ae-da135b0acb1f")
 
         if zlist[0] == "update":
             if zlist[1] == "year":
-                #“update å years å year_name å describe å photo_path”
+                #“update 899340aa-5a52-42c4-b0ae-da135b0acb1f years 899340aa-5a52-42c4-b0ae-da135b0acb1f year_name 899340aa-5a52-42c4-b0ae-da135b0acb1f describe 899340aa-5a52-42c4-b0ae-da135b0acb1f photo_path”
                 tjb = Years(year = zlist[2],describe = zlist[3],photo = zlist[4])
                 db.session.add(tjb)
                 db.session.commit()
@@ -214,7 +217,7 @@ def apidk():
 
             if zlist[1] == "det":
                 print(zlist)
-                #“update å det å det_name å describe å photo_path å body å act_id”
+                #“update 899340aa-5a52-42c4-b0ae-da135b0acb1f det 899340aa-5a52-42c4-b0ae-da135b0acb1f det_name 899340aa-5a52-42c4-b0ae-da135b0acb1f describe 899340aa-5a52-42c4-b0ae-da135b0acb1f photo_path 899340aa-5a52-42c4-b0ae-da135b0acb1f body 899340aa-5a52-42c4-b0ae-da135b0acb1f act_id”
                 a = Years.query.filter_by(year=zlist[5]).first()
                 tjb = Det(name = zlist[2],describe = zlist[3],photo = zlist[4],body=zlist[5],role=a)
                 db.session.add(tjb)
@@ -251,7 +254,7 @@ def upjpg():
     upload_file = request.files['file']
     
     old_file_name = upload_file.filename
-    yz_name = old_file_name.split("†")
+    yz_name = old_file_name.split("9046380f-3b5c-4cce-acd6-31a4f0088228")
     print(old_file_name)
     print(yz_name)
 

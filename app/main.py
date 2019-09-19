@@ -9,7 +9,7 @@ from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_required
 from flask_login import logout_user, login_user
-
+#这是一个黑利博瑞小型图文消息程序
 
 #初始化登陆
 login_manager = LoginManager()
@@ -92,13 +92,16 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 
+#主页映射路由
 @app.route('/')
 def index():
+    #获取数据库中所有年度信息
     a = Years.query.all()
 
     z_list = []
 
     for x in a:
+        #循环分割数据
         a = str(x)
         b = a.split("*")
         wcl_list = []
@@ -113,10 +116,12 @@ def index():
     return render_template('index.html',lista = z_list)
 
 
+#活动选择路由
 @app.route('/years/<v>/')
 def year(v):
     #年度学期页面生成 self.year,self.describe,self.photo
     #self.activity,self.describe,self.photo
+    #传入参数v进行year的查询，并查询关于活动具体图文的外链
     a = Years.query.filter_by(year=v).first()
     b = Det.query.filter_by(role=a).all()
 
@@ -138,10 +143,11 @@ def year(v):
     return render_template('one.html',lista = z_list)
 
 
-
+#具体图文路由
 @app.route('/det/<v>/')
 def det(v):
     #活动选择 self.name,self.describe,self.photo,self.body)
+    #用于查询具体图文的函数 传入值v 进行活动的具体查询
     det_list = Det.query.filter_by(name=v).first()
 
     a = str(det_list)
@@ -190,14 +196,17 @@ def two_list_chuli(a):
 
 @app.route('/api/',methods=['POST'])
 def apidk():
+    #api post 提交方法
     
     #重点重点 ！！！中文post提交方法
     text = request.get_data()
-    text = unquote(str(text), 'utf-8')
     #重点重点 ！！！中文post提交方法
 
-    print(text)
     if text is not None:
+
+        #重点重点 ！！！中文post提交方法
+        text = unquote(str(text), 'utf-8')
+        #重点重点 ！！！中文post提交方法
 
         text = str(text)
         text = text[2:]
@@ -208,8 +217,11 @@ def apidk():
         d = a.strip("\"")
         zlist = d.split("899340aa-5a52-42c4-b0ae-da135b0acb1f")
 
+
         if zlist[0] == "update":
+            #模式为更新上传模式
             if zlist[1] == "year":
+                #cho选择器为year
                 #“update 899340aa-5a52-42c4-b0ae-da135b0acb1f years 899340aa-5a52-42c4-b0ae-da135b0acb1f year_name 899340aa-5a52-42c4-b0ae-da135b0acb1f describe 899340aa-5a52-42c4-b0ae-da135b0acb1f photo_path”
                 tjb = Years(year = zlist[2],describe = zlist[3],photo = zlist[4])
                 db.session.add(tjb)
@@ -217,23 +229,32 @@ def apidk():
 
 
             if zlist[1] == "det":
+                #cho选择器为det
                 print(zlist)
                 #“update 899340aa-5a52-42c4-b0ae-da135b0acb1f det 899340aa-5a52-42c4-b0ae-da135b0acb1f det_name 899340aa-5a52-42c4-b0ae-da135b0acb1f describe 899340aa-5a52-42c4-b0ae-da135b0acb1f photo_path 899340aa-5a52-42c4-b0ae-da135b0acb1f body 899340aa-5a52-42c4-b0ae-da135b0acb1f act_id”
                 a = Years.query.filter_by(year=zlist[6]).first()
                 tjb = Det(name = zlist[2],describe = zlist[3],photo = zlist[4],body=zlist[5],role=a)
                 db.session.add(tjb)
                 db.session.commit()
-                '''
+
+
+'''
         if zlist[0] == "delete":
+            #模式为删除模式
             if zlist[1] == "year":
+                #cho选择器为year
 
 
             if zlist[1] == "det":
-                '''
+                #cho选择器为det
+'''
+
 
         if zlist[0] == "search":
+            #模式为搜索模式
 
             if zlist[1] == "year":
+                #cho选择器为year
 
                 a = Years.query.all()
 
@@ -241,6 +262,7 @@ def apidk():
 
 
             if zlist[1] == "det":
+                #cho选择器为det
 
                 a = Det.query.all()
 
@@ -248,7 +270,7 @@ def apidk():
 
 
 
-
+#用于上传图片的路由
 @app.route("/api/upload/",methods=['POST'])
 def upjpg():
 
@@ -261,13 +283,13 @@ def upjpg():
 
     if upload_file:
 
-        if yz_name[0] == "year_min":
+        if yz_name[0] == "year":
             #file_path = os.path.join("hlby_web/static/img/year_min/", old_file_name)
             file_path = os.path.join("/Users/lucy/Desktop/hlby_web/app/static/img/year_min", old_file_name)
 
             upload_file.save(file_path)
 
-        if yz_name[0] == "det_min":
+        if yz_name[0] == "detm":
             #file_path = os.path.join("hlby_web/static/img/det_min/", old_file_name)
             file_path = os.path.join("/Users/lucy/Desktop/hlby_web/app/static/img/det_min/", old_file_name)
 

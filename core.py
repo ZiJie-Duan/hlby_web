@@ -78,6 +78,11 @@ def update_img(cmd,mod):
 				except:
 					js += 1
 					print("照片传输超时！正在重连(%r/3)" %(str(js)))
+
+		print("\n\n\n")
+		for x in name:
+			print(x) 
+
 	else:
 
 		now_name = cmd[1]
@@ -114,6 +119,8 @@ def update_img(cmd,mod):
 			except:
 				js += 1
 				print("照片传输超时！正在重连(%r/3)" %(str(js)))
+
+		print("\n\n\n" + f_name)
 
 
 
@@ -391,6 +398,7 @@ def get_img_name(Jdlj, head_of_img_name):
 		os.rename(o, n)
 	
 
+
 	#now_list是带有绝对路径的列表
 	#name_list是只有更改后图片的名字的列表
 	return future_list, uuid_list
@@ -399,6 +407,7 @@ def get_img_name(Jdlj, head_of_img_name):
 
 
 if __name__ == '__main__':
+
 	main()
 
 

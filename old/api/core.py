@@ -94,7 +94,7 @@ def update_img(cmd,mod):
 		del js_n_lj[-1]
 		jdlj = "/".join(js_n_lj)
 
-		f_name = jdlj + "/" + cmd[2] + "*!*" + str(uuidx) + "." + hz
+		f_name = jdlj + "/" + cmd[2] + "9046380f-3b5c-4cce-acd6-31a4f0088228" + str(uuidx) + "." + hz
 		print(f_name)
 		os.rename(now_name, f_name)
 
@@ -186,11 +186,11 @@ def read_word_for_det_body(path):
 
 	lbfh_list = []
 	for x in word:
-		y = '*!body!*'.join(x)
+		y = 'f355c387-57f6-4734-af7e-26af5293d970'.join(x)
 		lbfh_list.append(y)
 
 
-	final_list = '*!body!*'.join(lbfh_list)
+	final_list = '295ff6c3-032b-4a83-a397-1cc0e754f785'.join(lbfh_list)
 
 	return final_list
 
@@ -216,7 +216,7 @@ def core_update(cmd):
 		describe = up_date_list[2]
 		photo_user_path = up_date_list[3]
 		photo_path = "/static/img/year_min/" + photo_user_path
-		data = api+"*!http!*"+cho+"*!http!*"+year_name+"*!http!*"+describe+"*!http!*"+photo_path
+		data = api+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+cho+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+year_name+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+describe+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+photo_path
 
 		print("\n")
 		print("api:"+ api)
@@ -241,7 +241,7 @@ def core_update(cmd):
 		photo_path = "/static/img/det_min/" + photo_user_path
 		body = str(det_body)
 		act_id = up_date_list[4]
-		data = api+"*!http!*"+cho+"*!http!*"+detname+"*!http!*"+describe+"*!http!*"+photo_path+"*!http!*"+body+"*!http!*"+act_id
+		data = api+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+cho+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+detname+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+describe+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+photo_path+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+body+"899340aa-5a52-42c4-b0ae-da135b0acb1f"+act_id
 
 		print("\n")
 		print("api:"+ api)

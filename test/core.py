@@ -1,5 +1,12 @@
+from urllib import parse
 from urllib.parse import quote
 import requests
+import xlrd
+import os
+import piexif
+from PIL import Image
+import uuid
+import json
 
 
 class Http_operation:
@@ -13,7 +20,7 @@ class Http_operation:
 
 	'''
 
-	def __init__(self,url,data,file_path):
+	def __init__(self,url="0",data="0",file_path="0"):
 		self.url = url
 		self.data = data
 		self.file_path = file_path
@@ -64,3 +71,16 @@ class Http_operation:
 
 
 
+senda = "update*!http!*year*!http!*这是一个名字2*!http!*这是一个描述*\
+!http!*/static/img/year_min/IMG_2310.jpeg"
+
+sendb = "update*!http!*det*!http!*这是一个图文名称*!http!*\
+这是一个图文描述*!http!*/static/img/year_min/IMG_2310.jpeg*!http!*\
+h1*!bodyson!*这是一个大标题*!body!*p*!bodyson!*hihihihihi*!http!*这是一个名字2"
+
+
+a = Http_operation(url = "http://127.0.0.1:5000/api/",data = senda,\
+	file_path="/Users/lucy/Desktop/year*!*IMG_2304.jpeg")
+
+#a.post_text()
+a.post_file()

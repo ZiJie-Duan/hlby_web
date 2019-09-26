@@ -53,7 +53,7 @@ class Years(db.Model):
 
     #返回函数
     def __repr__(self):
-        return "%r*!sqlite!*%r*!sqlite!*%r" % (self.year,self.describe,self.photo)
+        return "%r*%r*%r" % (self.year,self.describe,self.photo)
 
 
 class Det(db.Model):
@@ -70,7 +70,7 @@ class Det(db.Model):
     year_id = db.Column(db.Integer, db.ForeignKey('years.id'))
     #返回函数
     def __repr__(self):
-        return "%r*!sqlite!*%r*!sqlite!*%r*!sqlite!*%r" % (self.name,self.describe,self.photo,self.body)
+        return "%r*%r*%r*%r" % (self.name,self.describe,self.photo,self.body)
 
 #数据库---------模型声明----------
 
@@ -92,21 +92,18 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 
-
-
 #主页映射路由
 @app.route('/')
 def index():
     #获取数据库中所有年度信息
     a = Years.query.all()
 
-#self.year,self.describe,self.photo
     z_list = []
 
     for x in a:
         #循环分割数据
         a = str(x)
-        b = a.split("*!sqlite!*")
+        b = a.split("*")
         wcl_list = []
 
         for y in b :
@@ -117,7 +114,6 @@ def index():
         z_list.append(wcl_list)
 
     return render_template('index.html',lista = z_list)
-
 
 
 #活动选择路由
@@ -133,7 +129,7 @@ def year(v):
 
     for x in b:
         a = str(x)
-        b = a.split("*!sqlite!*")
+        b = a.split("*")
         wcl_list = []
 
         for y in b :
@@ -147,15 +143,15 @@ def year(v):
     return render_template('one.html',lista = z_list)
 
 
-
 #具体图文路由
 @app.route('/det/<v>/')
 def det(v):
+    #活动选择 self.name,self.describe,self.photo,self.body)
     #用于查询具体图文的函数 传入值v 进行活动的具体查询
     det_list = Det.query.filter_by(name=v).first()
-    #活动选择 self.name,self.describe,self.photo,self.body)
+
     a = str(det_list)
-    b = a.split("*!sqlite!*")
+    b = a.split("*")
     wcl_list = []
 
     for y in b :
@@ -166,13 +162,34 @@ def det(v):
 
     z_list = []
     zw = wcl_list[-1]
-    zw = zw.split("*!body!*")
+    zw = zw.split("295ff6c3-032b-4a83-a397-1cc0e754f785")
     for x in zw:
-        x = x.split("*!bodyson!*")
+        x = x.split("f355c387-57f6-4734-af7e-26af5293d970")
         z_list.append(x)
 
 
     return render_template('det.html',lista = z_list)
+
+
+
+
+def two_list_chuli(a):
+
+    z_list = []
+
+    for x in a:
+        a = str(x)
+        b = a.split("*")
+        wcl_list = []
+
+        for y in b :
+            c = y.strip('\'')
+
+            wcl_list.append(c)
+
+        z_list.append(wcl_list)
+
+    return z_list
 
 
 
@@ -195,50 +212,42 @@ def apidk():
         text = text[2:]
         text = text[:-1]
 
-
+        
         a = str(text)
         d = a.strip("\"")
-        zlist = d.split("*!http!*")
+        zlist = d.split("899340aa-5a52-42c4-b0ae-da135b0acb1f")
 
 
         if zlist[0] == "update":
             #模式为更新上传模式
             if zlist[1] == "year":
                 #cho选择器为year
+                #“update 899340aa-5a52-42c4-b0ae-da135b0acb1f years 899340aa-5a52-42c4-b0ae-da135b0acb1f year_name 899340aa-5a52-42c4-b0ae-da135b0acb1f describe 899340aa-5a52-42c4-b0ae-da135b0acb1f photo_path”
                 tjb = Years(year = zlist[2],describe = zlist[3],photo = zlist[4])
                 db.session.add(tjb)
                 db.session.commit()
-                return "ok"
 
 
             if zlist[1] == "det":
                 #cho选择器为det
                 print(zlist)
+                #“update 899340aa-5a52-42c4-b0ae-da135b0acb1f det 899340aa-5a52-42c4-b0ae-da135b0acb1f det_name 899340aa-5a52-42c4-b0ae-da135b0acb1f describe 899340aa-5a52-42c4-b0ae-da135b0acb1f photo_path 899340aa-5a52-42c4-b0ae-da135b0acb1f body 899340aa-5a52-42c4-b0ae-da135b0acb1f act_id”
                 a = Years.query.filter_by(year=zlist[6]).first()
                 tjb = Det(name = zlist[2],describe = zlist[3],photo = zlist[4],body=zlist[5],role=a)
                 db.session.add(tjb)
                 db.session.commit()
-                return "ok"
 
 
-
+'''
         if zlist[0] == "delete":
             #模式为删除模式
             if zlist[1] == "year":
                 #cho选择器为year
-                a = Years.query.filter_by(name=zlist[2]).first()
-                db.session.delete(a)
-                db.session.commit()
-                return "ok"
 
 
             if zlist[1] == "det":
                 #cho选择器为det
-                a = Det.query.filter_by(name=zlist[2]).first()
-                db.session.delete(a)
-                db.session.commit()
-                return "ok"
-
+'''
 
 
         if zlist[0] == "search":
@@ -268,22 +277,21 @@ def upjpg():
     upload_file = request.files['file']
     
     old_file_name = upload_file.filename
-    yz_name = old_file_name.split("*!*")
+    yz_name = old_file_name.split("9046380f-3b5c-4cce-acd6-31a4f0088228")
     print(old_file_name)
     print(yz_name)
 
     if upload_file:
 
         if yz_name[0] == "year":
-            print("\n\nyes\n\n")
             #file_path = os.path.join("hlby_web/static/img/year_min/", old_file_name)
-            file_path = os.path.join("/Users/lucy/Desktop/hlby_web/app/static/img/year", old_file_name)
+            file_path = os.path.join("/Users/lucy/Desktop/hlby_web/app/static/img/year_min", old_file_name)
 
             upload_file.save(file_path)
 
         if yz_name[0] == "detm":
             #file_path = os.path.join("hlby_web/static/img/det_min/", old_file_name)
-            file_path = os.path.join("/Users/lucy/Desktop/hlby_web/app/static/img/detm/", old_file_name)
+            file_path = os.path.join("/Users/lucy/Desktop/hlby_web/app/static/img/det_min/", old_file_name)
 
             upload_file.save(file_path)
 
@@ -296,26 +304,6 @@ def upjpg():
         return '发送完成'
     else:
         return '发送失败'
-
-
-def two_list_chuli(a):
-
-    z_list = []
-
-    for x in a:
-        a = str(x)
-        b = a.split("*!sqlite!*")
-        wcl_list = []
-
-        for y in b :
-            c = y.strip('\'')
-
-            wcl_list.append(c)
-
-        z_list.append(wcl_list)
-
-    return z_list
-
 
 
 

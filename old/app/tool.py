@@ -1,5 +1,4 @@
 import os
-from urllib.parse import unquote
 from flask import Flask, render_template, session, redirect, url_for, flash,request, g
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
@@ -9,7 +8,7 @@ from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_required
 from flask_login import logout_user, login_user
-#这是一个黑利博瑞小型图文消息程序
+
 
 #初始化登陆
 login_manager = LoginManager()
@@ -53,7 +52,7 @@ class Years(db.Model):
 
     #返回函数
     def __repr__(self):
-        return "%r*!sqlite!*%r*!sqlite!*%r" % (self.year,self.describe,self.photo)
+        return "%r*%r*%r" % (self.year,self.describe,self.photo)
 
 
 class Det(db.Model):
@@ -70,9 +69,11 @@ class Det(db.Model):
     year_id = db.Column(db.Integer, db.ForeignKey('years.id'))
     #返回函数
     def __repr__(self):
-        return "%r*!sqlite!*%r*!sqlite!*%r*!sqlite!*%r" % (self.name,self.describe,self.photo,self.body)
+        return "%r*%r*%r*%r" % (self.name,self.describe,self.photo,self.body)
 
 #数据库---------模型声明----------
+
+
 
 
 

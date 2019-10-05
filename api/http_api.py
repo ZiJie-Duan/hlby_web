@@ -13,7 +13,7 @@ class Http_operation:
 
 	'''
 
-	def __init__(self,url,data,file_path):
+	def __init__(self,url="",data="",file_path=""):
 		self.url = url
 		self.data = data
 		self.file_path = file_path

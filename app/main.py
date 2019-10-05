@@ -275,7 +275,6 @@ def upjpg():
     if upload_file:
 
         if yz_name[0] == "year":
-            print("\n\nyes\n\n")
             #file_path = os.path.join("hlby_web/static/img/year_min/", old_file_name)
             file_path = os.path.join("/Users/lucy/Desktop/hlby_web/app/static/img/year", old_file_name)
 
